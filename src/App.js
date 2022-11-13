@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 function App() {
+
+const [currentIssues, setCurrentIssues] = useState(null)
+
+useEffect(() => {
+
+  axios.get("https://api.github.com/repos/facebook/create-react-app/issues").then((response) => {
+    console.log(response);
+    const issues = response.data.request;
+    console.log(issues);
+
+    setCurrentIssues(issues)
+  })
+
+}, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>GitHub Issues!</h1>
+      <p>Put issues here: {currentIssues}</p>
     </div>
   );
 }
